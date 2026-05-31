@@ -3,72 +3,466 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Happy Birthday Saloni ❤️</title>
 
 <style>
-body{
+
+*{
 margin:0;
-font-family:Arial,sans-serif;
-background:#0f172a;
+padding:0;
+box-sizing:border-box;
+font-family: 'Arial', sans-serif;
+}
+
+body{
+overflow:hidden;
+background:#020617;
 color:white;
 height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-text-align:center;
-overflow:hidden;
 }
 
-#intro{
+/* ---------- STARS ---------- */
+
+#stars{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:
+radial-gradient(2px 2px at 20px 30px,#fff,transparent),
+radial-gradient(2px 2px at 40px 70px,#fff,transparent),
+radial-gradient(1px 1px at 90px 40px,#fff,transparent),
+radial-gradient(2px 2px at 130px 80px,#fff,transparent),
+radial-gradient(2px 2px at 200px 150px,#fff,transparent);
+background-size:300px 300px;
+animation:starsMove 40s linear infinite;
+opacity:.5;
+z-index:-2;
+}
+
+@keyframes starsMove{
+from{
+transform:translateY(0);
+}
+to{
+transform:translateY(-300px);
+}
+}
+
+/* ---------- COMMON SCREEN ---------- */
+
+.screen{
 position:absolute;
-inset:0;
+top:0;
+left:0;
+width:100%;
+height:100%;
 display:flex;
-flex-direction:column;
 justify-content:center;
 align-items:center;
-background:linear-gradient(180deg,#020617,#0f172a,#1e293b);
-}
-
-.tap{
-margin-top:20px;
-animation:blink 1.5s infinite;
-}
-
-@keyframes blink{
-50%{opacity:.3;}
+flex-direction:column;
+text-align:center;
+padding:25px;
 }
 
 .hidden{
 display:none;
 }
+
+/* ---------- INTRO ---------- */
+
+#intro{
+background:
+linear-gradient(
+180deg,
+#020617,
+#0f172a,
+#111827
+);
+}
+
+#intro h1{
+font-size:3rem;
+margin-bottom:15px;
+}
+
+.tap{
+margin-top:30px;
+opacity:.8;
+animation:blink 1.5s infinite;
+}
+
+@keyframes blink{
+50%{
+opacity:.3;
+}
+}
+
+/* ---------- LOADER ---------- */
+
+#loader h2{
+margin-bottom:20px;
+}
+
+#percent{
+font-size:2rem;
+font-weight:bold;
+}
+
+/* ---------- PHOTO ---------- */
+
+#photoScreen img{
+max-width:88vw;
+max-height:60vh;
+border-radius:20px;
+box-shadow:0 10px 35px rgba(0,0,0,.45);
+transition:all .8s ease;
+}
+
+#caption{
+margin-top:20px;
+line-height:1.6;
+font-size:1.1rem;
+max-width:700px;
+}
+
+/* ---------- MAP ---------- */
+
+#mapScreen h1{
+font-size:2.2rem;
+margin-bottom:15px;
+}
+
+.city{
+font-size:1.3rem;
+margin:10px 0;
+}
+
+/* ---------- LETTER ---------- */
+
+#letterCard{
+max-width:800px;
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(10px);
+padding:25px;
+border-radius:20px;
+line-height:1.8;
+font-size:18px;
+}
+
+#message{
+white-space:pre-line;
+}
+
+/* ---------- HEARTS ---------- */
+
+.heart{
+position:fixed;
+bottom:-30px;
+font-size:20px;
+pointer-events:none;
+animation:floatUp 8s linear forwards;
+}
+
+@keyframes floatUp{
+
+0%{
+transform:translateY(0);
+opacity:0;
+}
+
+20%{
+opacity:1;
+}
+
+100%{
+transform:translateY(-120vh);
+opacity:0;
+}
+}
+
 </style>
 </head>
 
 <body>
 
-<div id="intro">
+<div id="stars"></div>
+
+<!-- INTRO -->
+
+<div id="intro" class="screen">
+
 <h1>3 June 🎂</h1>
+
 <h2>A very special day...</h2>
+
+<br>
+
 <h2>Because today is Saloni's Birthday ❤️</h2>
-<p class="tap">Tap anywhere to begin ✨</p>
+
+<p class="tap">
+Tap anywhere to begin ✨
+</p>
+
+</div>
+
+<!-- LOADER -->
+
+<div id="loader" class="screen hidden">
+
+<h2>Searching for the birthday girl... ❤️</h2>
+
+<div id="percent">0%</div>
+
+</div>
+
+<!-- PHOTO SCREEN -->
+
+<div id="photoScreen" class="screen hidden">
+
+<img id="photo" src="photo1.jpeg">
+
+<p id="caption"></p>
+
+</div>
+
+<!-- MAP SCREEN -->
+
+<div id="mapScreen" class="screen hidden">
+
+<h1>📍 Delhi ❤️ Nashik 📍</h1>
+
+<p>
+Different cities.<br>
+Different routines.<br><br>
+
+Yet somehow,<br>
+you became one of my favourite parts of every day ❤️
+</p>
+
+</div>
+
+<!-- LETTER SCREEN -->
+
+<div id="letterScreen" class="screen hidden">
+
+<div id="letterCard">
+
+<h2>Happy Birthday Saloni ❤️</h2>
+
+<br>
+
+<p id="message"></p>
+
+</div>
+
 </div>
 
 <audio id="bgmusic" loop>
 <source src="music.mp3" type="audio/mpeg">
 </audio>
-
 <script>
-const intro=document.getElementById("intro");
-const music=document.getElementById("bgmusic");
+
+const intro = document.getElementById("intro");
+const loader = document.getElementById("loader");
+const photoScreen = document.getElementById("photoScreen");
+const mapScreen = document.getElementById("mapScreen");
+const letterScreen = document.getElementById("letterScreen");
+
+const photo = document.getElementById("photo");
+const caption = document.getElementById("caption");
+const percent = document.getElementById("percent");
+
+const music = document.getElementById("bgmusic");
+
+const photos = [
+"photo1.jpeg",
+"photo2.jpeg",
+"photo3.jpeg",
+"photo4.jpeg",
+"photo5.jpeg"
+];
+
+const captions = [
+
+"Some people make days better... You make them unforgettable ✨",
+
+"Distance may separate cities... but never the people who matter ❤️",
+
+"Every time I see you smile... the world feels a little brighter ☀️",
+
+"Some moments are beautiful. Some people are beautiful. And then there is you 🤍",
+
+"And today... we celebrate the person who makes everything special 🎂✨"
+
+];
 
 intro.addEventListener("click",()=>{
-music.currentTime=14;
+
+music.currentTime = 14;
+
 music.play().catch(()=>{});
-intro.innerHTML=`
-<h1>Happy Birthday Saloni ❤️</h1>
-<p>More coming soon...</p>
-`;
-});
+
+intro.classList.add("hidden");
+
+loader.classList.remove("hidden");
+
+startLoading();
+
+},{once:true});
+
+function startLoading(){
+
+let value = 0;
+
+const timer = setInterval(()=>{
+
+value++;
+
+percent.innerText = value + "%";
+
+if(value >= 100){
+
+clearInterval(timer);
+
+loader.classList.add("hidden");
+
+startSlideshow();
+
+}
+
+},30);
+
+}
+
+function startSlideshow(){
+
+photoScreen.classList.remove("hidden");
+
+let current = 0;
+
+photo.src = photos[0];
+caption.innerText = captions[0];
+
+const slideTimer = setInterval(()=>{
+
+current++;
+
+if(current >= photos.length){
+
+clearInterval(slideTimer);
+
+photoScreen.classList.add("hidden");
+
+showMap();
+
+return;
+
+}
+
+photo.src = photos[current];
+
+caption.innerText = captions[current];
+
+},4500);
+
+}
+
+function showMap(){
+
+mapScreen.classList.remove("hidden");
+
+setTimeout(()=>{
+
+mapScreen.classList.add("hidden");
+
+showLetter();
+
+},7000);
+
+}
+
+function showLetter(){
+
+letterScreen.classList.remove("hidden");
+
+const text = `Happy Birthday Saloni ❤️
+
+Today is your day.
+
+A day that deserves happiness,
+laughter,
+good memories,
+and countless reasons to smile. ✨
+
+Miles apart,
+different cities,
+different routines...
+
+Yet somehow,
+you became one of my favourite parts of every day. ❤️
+
+Thank you for all the conversations,
+the random laughs,
+the memories,
+and the little moments that make ordinary days feel special.
+
+I hope this year brings you everything you've been wishing for,
+all the happiness you deserve,
+and many reasons to keep smiling. 🤍
+
+Keep shining.
+Keep being exactly who you are.
+
+Because that's my favourite version of you. ❤️
+
+P.S.
+Save a small piece of birthday cake for me too 😌🎂
+
+– Dev`;
+
+let i = 0;
+
+const target = document.getElementById("message");
+
+(function type(){
+
+if(i < text.length){
+
+target.innerHTML += text.charAt(i);
+
+i++;
+
+setTimeout(type,80);
+
+}
+
+})();
+
+}
+
+setInterval(()=>{
+
+const heart = document.createElement("div");
+
+heart.className = "heart";
+
+heart.innerHTML = "❤️";
+
+heart.style.left = Math.random()*100 + "vw";
+
+document.body.appendChild(heart);
+
+setTimeout(()=>{
+
+heart.remove();
+
+},8000);
+
+},800);
+
 </script>
 
 </body>
