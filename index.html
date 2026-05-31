@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Saloni ❤️</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, sans-serif;
+}
+
+body{
+background:black;
+overflow:hidden;
+color:white;
+}
+
+#intro{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+background:black;
+text-align:center;
+padding:20px;
+z-index:999;
+}
+
+#intro h1{
+font-size:3rem;
+margin-bottom:20px;
+}
+
+#intro p{
+font-size:1.2rem;
+opacity:.8;
+animation:blink 1.5s infinite;
+}
+
+@keyframes blink{
+50%{
+opacity:.3;
+}
+}
+
+#main{
+display:none;
+width:100%;
+height:100vh;
+background:linear-gradient(135deg,#111,#222);
+justify-content:center;
+align-items:center;
+flex-direction:column;
+text-align:center;
+padding:20px;
+}
+
+#main h2{
+font-size:2rem;
+margin-bottom:15px;
+}
+
+#main p{
+font-size:1.1rem;
+max-width:700px;
+line-height:1.6;
+}
+</style>
+</head>
+
+<body>
+
+<!-- INTRO SCREEN -->
+<div id="intro">
+<h1>3 June 🎂</h1>
+
+<h2>A very special day...</h2>
+
+<br>
+
+<h2>Because today is Saloni's Birthday ❤️</h2>
+
+<br><br>
+
+<p>Tap anywhere to begin ✨</p>
+</div>
+
+<!-- MAIN SCREEN -->
+<div id="main">
+
+<h2>Welcome Saloni ❤️</h2>
+
+<p>
+This birthday experience was made specially for you 🎂✨
+</p>
+
+</div>
+
+<!-- MUSIC -->
+<audio id="bgMusic" loop>
+<source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+const intro = document.getElementById("intro");
+const main = document.getElementById("main");
+const music = document.getElementById("bgMusic");
+
+intro.addEventListener("click", () => {
+
+music.play();
+
+intro.style.display="none";
+
+main.style.display="flex";
+
+});
+
+</script>
+
+</body>
+</html>
