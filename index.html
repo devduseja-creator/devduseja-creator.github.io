@@ -4,129 +4,104 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Happy Birthday Saloni ❤️</title>
-
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial, sans-serif;
-}
-
-body{
-background:black;
-overflow:hidden;
-color:white;
-}
-
-#intro{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100vh;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-background:black;
-text-align:center;
-padding:20px;
-z-index:999;
-}
-
-#intro h1{
-font-size:3rem;
-margin-bottom:20px;
-}
-
-#intro p{
-font-size:1.2rem;
-opacity:.8;
-animation:blink 1.5s infinite;
-}
-
-@keyframes blink{
-50%{
-opacity:.3;
-}
-}
-
-#main{
-display:none;
-width:100%;
-height:100vh;
-background:linear-gradient(135deg,#111,#222);
-justify-content:center;
-align-items:center;
-flex-direction:column;
-text-align:center;
-padding:20px;
-}
-
-#main h2{
-font-size:2rem;
-margin-bottom:15px;
-}
-
-#main p{
-font-size:1.1rem;
-max-width:700px;
-line-height:1.6;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#000;color:#fff;overflow:hidden}
+.screen{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:20px}
+#intro{background:linear-gradient(135deg,#0f0c29,#302b63,#24243e)}
+.tap{animation:blink 1.5s infinite}
+@keyframes blink{50%{opacity:.3}}
+.hidden{display:none}
+#content{background:linear-gradient(135deg,#ffdde1,#ee9ca7);color:#222}
+img{max-width:85vw;max-height:55vh;border-radius:20px;box-shadow:0 8px 30px rgba(0,0,0,.3)}
+.caption{margin-top:20px;font-size:1.2rem;font-weight:bold}
+.heart{position:fixed;bottom:-20px;animation:float 4s linear forwards}
+@keyframes float{to{transform:translateY(-110vh);opacity:0}}
+#letter{background:#fff;color:#333;padding:20px;border-radius:20px;max-width:700px}
+button{padding:12px 22px;border:none;border-radius:30px;background:#ff4d88;color:#fff}
 </style>
 </head>
-
 <body>
-
-<!-- INTRO SCREEN -->
-<div id="intro">
+<div id="intro" class="screen">
 <h1>3 June 🎂</h1>
-
 <h2>A very special day...</h2>
-
-<br>
-
 <h2>Because today is Saloni's Birthday ❤️</h2>
-
-<br><br>
-
-<p>Tap anywhere to begin ✨</p>
+<br><p class="tap">Tap anywhere to begin ✨</p>
 </div>
 
-<!-- MAIN SCREEN -->
-<div id="main">
-
-<h2>Welcome Saloni ❤️</h2>
-
-<p>
-This birthday experience was made specially for you 🎂✨
-</p>
-
+<div id="content" class="screen hidden">
+<h1 id="title"></h1>
+<img id="photo" src="photo1.jpeg">
+<p id="caption" class="caption"></p>
 </div>
 
-<!-- MUSIC -->
 <audio id="bgMusic" loop>
 <source src="music.mp3" type="audio/mpeg">
 </audio>
 
 <script>
+const scenes=[
+["photo3.jpeg","Still trying to understand how someone can smile like that 😭❤️"],
+["photo4.jpeg","One smile = instant mood upgrade ✨"],
+["photo5.jpeg","Nashik looks beautiful... but not as beautiful as the person standing there 😌❤️"],
+["photo1.jpeg","Happy Birthday Saloni 🎂❤️"],
+["photo2.jpeg",""]
+];
 
-const intro = document.getElementById("intro");
-const main = document.getElementById("main");
-const music = document.getElementById("bgMusic");
+const intro=document.getElementById('intro');
+const content=document.getElementById('content');
+const music=document.getElementById('bgMusic');
+const photo=document.getElementById('photo');
+const caption=document.getElementById('caption');
+const title=document.getElementById('title');
 
-intro.addEventListener("click", () => {
+intro.onclick=()=>{
+ music.play().catch(()=>{});
+ intro.classList.add('hidden');
+ content.classList.remove('hidden');
+ startShow();
+};
 
-music.play();
+function startShow(){
+ let i=0;
+ function next(){
+   if(i<scenes.length){
+      photo.src=scenes[i][0];
+      caption.innerText=scenes[i][1];
+      title.innerText=(i===3?"Happy Birthday Saloni ❤️":"");
+      i++;
+      setTimeout(next,4000);
+   }else{
+      showLetter();
+   }
+ }
+ next();
+}
 
-intro.style.display="none";
+function showLetter(){
+ content.innerHTML=`<div id="letter"><h2>Happy Birthday Saloni ❤️</h2><br>
+ <p id="type"></p></div>`;
+ const msg=`I wish I could annoy you in person today, steal a piece of your cake, and remind you every five minutes that it's your birthday 😌
 
-main.style.display="flex";
+But since Delhi and Nashik decided to stay so far apart, this little website will have to do the job for me.
 
-});
+Thank you for all the conversations, the laughs, the random moments, and for being someone I genuinely look forward to talking to.
 
+You somehow manage to make ordinary days feel a little better, and that's a pretty special thing.
+
+I hope this year brings you happiness, success, good memories, and everything you've been wishing for.
+
+And if possible... save a small piece of birthday cake for me too 😌🎂❤️`;
+ let i=0; const el=document.getElementById('type');
+ (function type(){ if(i<msg.length){ el.innerHTML+=msg.charAt(i++); setTimeout(type,25);} })();
+ setInterval(()=>{
+   const h=document.createElement('div');
+   h.className='heart'; h.innerHTML='💖';
+   h.style.left=Math.random()*window.innerWidth+'px';
+   document.body.appendChild(h);
+   setTimeout(()=>h.remove(),4000);
+ },300);
+}
 </script>
-
 </body>
 </html>
